@@ -13,8 +13,13 @@ export default function Home() {
           </li>
           <li>
             <Link href="/forms/submit-purchase-order">
-              <a>Purchase tools</a>
+              <a>Purchase order</a>
             </Link>
+          </li>
+          <li>
+          <Link href="/forms/submit-purchase-tool">
+            <a>Purchase tool</a>
+          </Link>
           </li>
         </ul>
       </div>
