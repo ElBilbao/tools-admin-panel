@@ -21,6 +21,11 @@ function Header() {
               Existing Tools Form
             </a>
           </Link>
+          <Link href="/forms/submit-purchase-order">
+            <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">
+              Purchase Order Form
+            </a>
+          </Link>
         </div>
       </div>
     </nav>

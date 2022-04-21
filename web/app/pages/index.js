@@ -11,6 +11,11 @@ export default function Home() {
               <a>Existing tools</a>
             </Link>
           </li>
+          <li>
+            <Link href="/forms/submit-purchase-order">
+              <a>Purchase tools</a>
+            </Link>
+          </li>
         </ul>
       </div>
     </div>
