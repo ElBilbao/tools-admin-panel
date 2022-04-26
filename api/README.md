@@ -6,7 +6,7 @@ The backend of the tools admin consists of a FastAPI that enables the endpoints 
 
 ### FastAPI Server Setup
 
-Make sure you are in the api directory, you have all requirements installed (`pip install`) and that you run `uvicorn index:app --reload`. The reload tag will redeploy server when a change is made in source code.
+Make sure you are in the api directory, you have all requirements installed (`pip install`) and that you run `uvicorn index:app --reload`. The reload tag will redeploy server when a change is made in source code. Use `http://localhost:8000/docs` to test endpoints.
 
 ### MySQL Server Setup
 
@@ -14,10 +14,16 @@ It is recommended to use a mysql container with docker, we recommend [this guide
 
 #### SQL for quick testing
 
-`CREATE DATABASE test_db;`
+Use the database sql in the db directory to create your local schema.
 
-`` CREATE TABLE `tools` ( `toolID` int NOT NULL AUTO_INCREMENT, `toolName` varchar(150) DEFAULT NULL, PRIMARY KEY (`toolID`) ) ``
+##### Basic setup
+
+`CREATE DATABASE test_db;`
 
 `CREATE USER 'newuser'@'%' IDENTIFIED BY 'newpassword';`
 
 `GRANT ALL PRIVILEGES ON test_db.* to 'newuser'@'%';`
+
+##### Tools WITHOUT quotation testing values
+
+`INSERT INTO test_db.Tools VALUES (0, null, "example", "example note", "category example", "tool type", "pathtoimage", null, null, "material");`
