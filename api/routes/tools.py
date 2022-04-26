@@ -26,14 +26,14 @@ async def write_tool(tool: Tool):
 @tool.put("/{id}")
 async def write_update_tool(id: int, tool: Tool):
     connection.execute(
-            tools.update(
-                toolID=tool.toolID,
-                toolName=tool.toolName
-            )
+        tools.update().values(
+            toolID=tool.toolID,
+            toolName=tool.toolName
         ).where(tools.c.toolID == id)
+    )
     return connection.execute(tools.select()).fetchall()
 
 @tool.delete("/{id}")
 async def write_delete_tool(id: int):
-    connection.execute(tools.delete()).where(tools.c.toolID == id)
+    connection.execute(tools.delete().where(tools.c.toolID == id))
     return connection.execute(tools.select()).fetchall()
