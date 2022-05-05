@@ -31,6 +31,12 @@ function Header() {
               Purchase Tool Form
             </a>
           </Link>
+            <Link href="/views/view-old-tools">
+              <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">Existing tools</a>
+            </Link>
+            <Link href="/views/view-individual-tool">
+              <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">Tool View</a>
+            </Link>
         </div>
       </div>
     </nav>

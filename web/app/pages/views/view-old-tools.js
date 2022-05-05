@@ -6,7 +6,7 @@ function Header() {
     <nav class="flex items-center justify-between flex-wrap bg-red-600 p-6">
       <div class="flex items-center flex-shrink-0 text-white mr-6">
         <span class="font-semibold text-xl tracking-tight">
-          OLD TOOL VIEWS
+          View Tools
         </span>
       </div>
       <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
@@ -31,6 +31,12 @@ function Header() {
               Purchase Tool Form
             </a>
           </Link>
+            <Link href="/views/view-old-tools">
+              <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">Existing tools</a>
+            </Link>
+            <Link href="/views/view-individual-tool">
+              <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">Tool View</a>
+            </Link>
         </div>
       </div>
     </nav>
