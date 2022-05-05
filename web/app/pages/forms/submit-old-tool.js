@@ -41,33 +41,89 @@ function Header() {
  FORM
 */
 function ExistingForm() {
+  // Handles the submit event on form submit.
+  const handleSubmit = async (event) => {
+    // Stop the form from submitting and refreshing the page.
+    event.preventDefault()
+   
+    // Get data from the form.
+    const data = {
+      "toolID": event.target.gridSerialNumber.value,
+      "quotationID": 0,
+      "toolName": event.target.gridName.value,
+      "toolNotes": event.target.gridNotes.value,
+      "toolCategory": event.target.gridCategory.value,
+      "toolType": event.target.gridType.value,
+      "pathToToolImage": "",
+      "purchasePrice_NoTAX": event.target.gridPrice.value,
+      "salePrice_NoTAX": 0,
+      "material": event.target.gridMaterial.value
+    }
+
+    // Send the data to the server in JSON format.
+    const JSONdata = JSON.stringify(data)
+    console.log(JSONdata)
+
+    const res = await fetch("http://localhost:8000/tools/")
+    console.log(res)
+    // API endpoint where we send form data.
+    const endpoint = 'http://localhost:8000/tools/'
+
+    // Form the request for sending data to the server.
+    const options = {
+      // The method is POST because we are sending data.
+      method: 'POST',
+      // Tell the server we're sending JSON.
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Body of the request is the JSON data we created above.
+      body: JSONdata,
+    }
+
+    // Send the form data to our tools API and get a response.
+    const response = await fetch(endpoint, options)
+
+    // Get the response data from server as JSON.
+    // If server returns the name submitted, that means the form works.
+    //const result = await response.json()
+    
+    if (response.status == 200) {
+      alert("Successfully added the existing tool.")
+      event.target.reset();
+    } else {
+      alert("Error: Response status " + response.status)
+    }
+    
+  }
+
   return (
-    <form class="w-full max-w-lg">
+    <form onSubmit={handleSubmit} class="w-full max-w-lg">
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3 mb-6 md:mb-0">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="grid-first-name"
+            for="grid-serial-number"
           >
             Serial Number (ID)
           </label>
           <input
             class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-            id="grid-first-name"
+            id="gridSerialNumber"
             type="text"
-            placeholder="UX2932"
+            placeholder="2932"
           />
         </div>
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="grid-first-name"
+            for="grid-name"
           >
             Name
           </label>
           <input
             class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-            id="grid-first-name"
+            id="gridName"
             type="text"
             placeholder="Industrial Tape"
           />
@@ -75,13 +131,13 @@ function ExistingForm() {
         <div class="w-full md:w-1/2 px-3">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="grid-last-name"
+            for="grid-material"
           >
             Material
           </label>
           <input
             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="grid-last-name"
+            id="gridMaterial"
             type="text"
             placeholder="Iron"
           />
@@ -91,13 +147,13 @@ function ExistingForm() {
         <div class="w-full px-3">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="grid-password"
+            for="grid-notes"
           >
             Notes
           </label>
           <input
             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="grid-password"
+            id="gridNotes"
             placeholder="Warranty overdue..."
           />
           <p class="text-gray-600 text-xs italic">Notes</p>
@@ -107,13 +163,13 @@ function ExistingForm() {
         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="grid-city"
+            for="grid-price"
           >
             Price
           </label>
           <input
             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="grid-city"
+            id="gridPrice"
             type="number"
             placeholder="1000"
           />
@@ -121,14 +177,14 @@ function ExistingForm() {
         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="grid-state"
+            for="grid-category"
           >
             Category
           </label>
           <div class="relative">
             <select
               class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="grid-state"
+              id="gridCategory"
             >
               <option>Hardware</option>
               <option>Software</option>
@@ -148,13 +204,13 @@ function ExistingForm() {
         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="grid-zip"
+            for="grid-type"
           >
             Type
           </label>
           <input
             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="grid-zip"
+            id="gridType"
             type="text"
             placeholder="Technological"
           />
