@@ -54,3 +54,6 @@ async def update_tool(id: int, tool: Tool):
 async def delete_tool(id: int):
     connection.execute(tools.delete().where(tools.c.toolID == id))
     return connection.execute(tools.select()).fetchall()
+
+
+    
