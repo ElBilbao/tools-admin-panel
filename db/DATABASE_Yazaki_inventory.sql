@@ -173,7 +173,7 @@ CREATE TABLE Quotations (
 --
 
 DROP TABLE IF EXISTS AdditionalServices;
-CREATE TABLE ServiciosAdicionales(
+CREATE TABLE AdditionalServices(
   serviceID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   quotationID INT NOT NULL,
   serviceName TINYTEXT,
@@ -191,11 +191,12 @@ DROP TABLE IF EXISTS Tools;
 CREATE TABLE Tools (
   toolID INT NOT NULL AUTO_INCREMENT,
   quotationID INT DEFAULT NULL,
-  toolName varchar(150) NOT NULL,
-  toolNotes TEXT NOT NULL,
-  toolCategory TEXT NOT NULL,
-  toolType varchar(150) DEFAULT NULL,
-  pathToToolImage varchar(255) NOT NULL,
+  toolName varchar(150) NULL,
+  toolNotes TEXT NULL,
+  toolCategory TEXT  NULL,
+  properties TEXT DEFAULT NULL,
+  status TINYTEXT,
+  pathToToolImage varchar(255) NULL,
   purchasePrice_NoTAX decimal(10,2) DEFAULT NULL,
   salePrice_NoTAX decimal(10,2) DEFAULT NULL,
   material TINYTEXT DEFAULT NULL,
@@ -259,13 +260,9 @@ CREATE TABLE PurchasedItems (
   FOREIGN KEY (purchaseID) REFERENCES Purchases (purchaseID)
 );
 
+--
+-- Inserts for testing purposes
+--
 
-DROP TABLE IF EXISTS PurchaseOrders;
-CREATE TABLE OrdenesDeCompra (
-  purchaseOrderID INT NOT NULL AUTO_INCREMENT,
-  quotationID INT DEFAULT NULL,
-  dateAdded datetime DEFAULT NOW(),
-  PRIMARY KEY (purchaseOrderID),
-  FOREIGN KEY (quotationID) REFERENCES Quotations (quotationID)
-);
-
+INSERT INTO Tools (quotationID, toolName, toolNotes, toolCategory, properties, status, pathToToolImage, purchasePrice_NoTAX, salePrice_NoTAX, material)
+VALUES (NULL, "Tool 1", "No notes", NULL, "Properties tool 1", "Available", NULL, NULL, NULL, NULL);
