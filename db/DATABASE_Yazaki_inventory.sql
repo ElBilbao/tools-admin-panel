@@ -1,3 +1,7 @@
+/*
+DROP DATABASE Yazaki_inventory;
+*/
+
 CREATE DATABASE IF NOT EXISTS Yazaki_inventory;
 
 USE Yazaki_inventory;
@@ -146,12 +150,12 @@ CREATE TABLE Suppliers (
 
 
 --
--- Table structure for table Quotations
+-- Table structure for table purchaseOrders
 --
 
-DROP TABLE IF EXISTS Quotations;
-CREATE TABLE Quotations (
-  quotationID INT NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS purchaseOrders;
+CREATE TABLE purchaseOrders (
+  purchaseOrderID INT NOT NULL AUTO_INCREMENT,
   quotationDate datetime NOT NULL,
   discountPercentaje decimal(5,2) DEFAULT NULL,
   totalPriceItems_NoTAX decimal(10,2) DEFAULT NULL,
@@ -161,7 +165,7 @@ CREATE TABLE Quotations (
   status varchar(55) DEFAULT NULL,
   shippingPrice decimal(10,2) DEFAULT NULL,
   TDC_Sale decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (quotationID),
+  PRIMARY KEY (purchaseOrderID),
   FOREIGN KEY (employeeID) REFERENCES Employees (employeeID),
   FOREIGN KEY (clientID) REFERENCES Clients (clientID),
   FOREIGN KEY (supplierID) REFERENCES Suppliers (supplierID)
@@ -175,10 +179,10 @@ CREATE TABLE Quotations (
 DROP TABLE IF EXISTS AdditionalServices;
 CREATE TABLE AdditionalServices(
   serviceID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  quotationID INT NOT NULL,
+  purchaseOrderID INT NOT NULL,
   serviceName TINYTEXT,
   servicePrice decimal(10,2),
-  FOREIGN KEY (quotationID) REFERENCES Quotations (quotationID)
+  FOREIGN KEY (purchaseOrderID) REFERENCES purchaseOrders (purchaseOrderID)
 );
 
 
@@ -190,18 +194,20 @@ CREATE TABLE AdditionalServices(
 DROP TABLE IF EXISTS Tools;
 CREATE TABLE Tools (
   toolID INT NOT NULL AUTO_INCREMENT,
-  quotationID INT DEFAULT NULL,
+  purchaseOrderID INT DEFAULT NULL,
   toolName varchar(150) NULL,
   toolNotes TEXT NULL,
   toolCategory TEXT  NULL,
   properties TEXT DEFAULT NULL,
   status TINYTEXT,
+  userID INT,
   pathToToolImage varchar(255) NULL,
   purchasePrice_NoTAX decimal(10,2) DEFAULT NULL,
   salePrice_NoTAX decimal(10,2) DEFAULT NULL,
   material TINYTEXT DEFAULT NULL,
   PRIMARY KEY (toolID),
-  FOREIGN KEY (quotationID) REFERENCES Quotations (quotationID)
+  FOREIGN KEY (purchaseOrderID) REFERENCES purchaseOrders (purchaseOrderID),
+  FOREIGN KEY (userID) REFERENCES Persons (personID)
 );
 
 create table Projects (
@@ -264,5 +270,11 @@ CREATE TABLE PurchasedItems (
 -- Inserts for testing purposes
 --
 
-INSERT INTO Tools (quotationID, toolName, toolNotes, toolCategory, properties, status, pathToToolImage, purchasePrice_NoTAX, salePrice_NoTAX, material)
+INSERT INTO Tools (purchaseOrderID, toolName, toolNotes, toolCategory, properties, status, pathToToolImage, purchasePrice_NoTAX, salePrice_NoTAX, material)
 VALUES (NULL, "Tool 1", "No notes", NULL, "Properties tool 1", "Available", NULL, NULL, NULL, NULL);
+
+INSERT INTO Persons (names, familyName, email, phoneNum, rol)
+VALUES ("Juan Carlos", "Pérez González", "juan.perez@yazaki.com", "+52 1 81 3388 3030", "Project Manager");
+
+INSERT INTO Tools (purchaseOrderID, toolName, toolNotes, toolCategory, properties, status, userID, pathToToolImage, purchasePrice_NoTAX, salePrice_NoTAX, material)
+VALUES (NULL, "Tool 2", "Project Yazaki", NULL, "Properties tool 2", "In use", 2, NULL, NULL, NULL, NULL);
