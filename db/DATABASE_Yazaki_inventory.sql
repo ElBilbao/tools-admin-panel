@@ -278,3 +278,11 @@ VALUES ("Juan Carlos", "Pérez González", "juan.perez@yazaki.com", "+52 1 81 33
 
 INSERT INTO Tools (purchaseOrderID, toolName, toolNotes, toolCategory, properties, status, userID, pathToToolImage, purchasePrice_NoTAX, salePrice_NoTAX, material)
 VALUES (NULL, "Tool 2", "Project Yazaki", NULL, "Properties tool 2", "In use", 2, NULL, NULL, NULL, NULL);
+
+-- Queries
+
+SELECT personID, names, familyName, email, phoneNum, rol
+FROM Persons;
+
+SELECT toolID, purchaseOrderID, toolName, toolNotes, toolCategory, properties, status, userID, pathToToolImage, purchasePrice_NoTAX, salePrice_NoTAX, material
+FROM Tools;
