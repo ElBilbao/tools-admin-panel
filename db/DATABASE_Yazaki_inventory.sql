@@ -148,27 +148,51 @@ CREATE TABLE Suppliers (
   FOREIGN KEY (companyID) REFERENCES Companies (companyID)
 );
 
+CREATE TABLE Purchaser_Departments (
+	purchaser_departmentID INT not NULL AUTO_INCREMENT,
+	YSS_Purchasing TEXT,
+	YNA_Purchasing TEXT,
+	YNA_IT TEXT,
+	YSS_IT TEXT,
+	other TEXT,
+	PRIMARY KEY (purchaser_departmentID)
+);
+
+CREATE TABLE Projects (
+	projectID INT NOT NULL auto_increment,
+	projectDescription TEXT,
+	PRIMARY KEY (projectID)
+);
 
 --
 -- Table structure for table purchaseOrders
 --
 
-DROP TABLE IF EXISTS purchaseOrders;
-CREATE TABLE purchaseOrders (
-  purchaseOrderID INT NOT NULL AUTO_INCREMENT,
-  quotationDate datetime NOT NULL,
-  discountPercentaje decimal(5,2) DEFAULT NULL,
-  totalPriceItems_NoTAX decimal(10,2) DEFAULT NULL,
-  employeeID INT DEFAULT NULL,
-  clientID INT DEFAULT NULL,
+CREATE TABLE PurchaseOrders (
+	purchaseOrderID INT NOT NULL AUTO_INCREMENT,
+  purchaseOrderDate datetime NOT NULL,
+	purchaseType TEXT,
+	purchaseInitiatorID INT,
+	details TEXT,
+  status TEXT,
+	purchaseResponsibleDepartment INT,
   supplierID INT DEFAULT NULL,
-  status varchar(55) DEFAULT NULL,
-  shippingPrice decimal(10,2) DEFAULT NULL,
-  TDC_Sale decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (purchaseOrderID),
-  FOREIGN KEY (employeeID) REFERENCES Employees (employeeID),
-  FOREIGN KEY (clientID) REFERENCES Clients (clientID),
-  FOREIGN KEY (supplierID) REFERENCES Suppliers (supplierID)
+	dateOrdered datetime,
+	dateReceived datetime,
+	purchaseTotal  decimal(10,2),
+	financeApproverID INT,
+	approverInSAP INT,
+	FAA INT,
+	purchaseNotes TEXT,
+	costCenterCharged TEXT,
+	targetProjectID INT,
+	purchaseStatus tinytext,
+	accountID INT,
+	PRIMARY KEY (purchaseOrderID),
+	FOREIGN KEY (purchaseResponsibleDepartment) REFERENCES Purchaser_Departments (purchaser_departmentID),
+	FOREIGN KEY (targetProjectID) REFERENCES Projects (projectID),
+	FOREIGN KEY (accountID) REFERENCES Accounts (accountID),
+  FOREIGN KEY (purchaseInitiatorID) REFERENCES Persons (personID)
 );
 
 
@@ -182,7 +206,7 @@ CREATE TABLE AdditionalServices(
   purchaseOrderID INT NOT NULL,
   serviceName TINYTEXT,
   servicePrice decimal(10,2),
-  FOREIGN KEY (purchaseOrderID) REFERENCES purchaseOrders (purchaseOrderID)
+  FOREIGN KEY (purchaseOrderID) REFERENCES PurchaseOrders (purchaseOrderID)
 );
 
 
@@ -210,51 +234,13 @@ CREATE TABLE Tools (
   FOREIGN KEY (userID) REFERENCES Persons (personID)
 );
 
-create table Projects (
-	projectID INT NOT NULL auto_increment,
-	projectDescription TEXT,
-	PRIMARY KEY (projectID)
-);
-
-
-create TABLE Purchaser_Departments (
-	purchaser_departmentID INT not NULL AUTO_INCREMENT,
-	YSS_Purchasing TEXT,
-	YNA_Purchasing TEXT,
-	YNA_IT TEXT,
-	YSS_IT TEXT,
-	other TEXT,
-	PRIMARY KEY (purchaser_departmentID)
-);
-
-create TABLE Purchases (
-	purchaseID INT NOT NULL AUTO_INCREMENT,
-	purchaseType TEXT,
-	purchaseInitiatorID INT,
-	purchaseOrder TEXT,
-	purchaseResponsibleDepartment INT,
-	dateOrdered datetime,
-	dateReceived datetime,
-	purchaseTotal  decimal(10,2),
-	financeApproverID INT,
-	approverInSAP INT,
-	FAA INT,
-	purchaseNotes TEXT,
-	costCenterCharged TEXT,
-	targetProjectID INT,
-	purchaseStatus tinytext,
-	accountID INT,
-	PRIMARY KEY (purchaseID),
-	FOREIGN KEY (purchaseResponsibleDepartment) REFERENCES Purchaser_Departments (purchaser_departmentID),
-	FOREIGN KEY (targetProjectID) REFERENCES Projects (projectID),
-	FOREIGN KEY (accountID) REFERENCES Accounts (accountID)
-);
 
 
 DROP TABLE IF EXISTS PurchasedItems;
 CREATE TABLE PurchasedItems (
   purchasedItemID INT NOT NULL AUTO_INCREMENT,
-  purchaseID INT,
+  purchaseOrderID INT,
+  toolID INT,
   unitCost decimal(10,2) DEFAULT NULL,
   quantity INT,
   itemTotal INT,
@@ -263,7 +249,8 @@ CREATE TABLE PurchasedItems (
   versionOfPurchase tinytext,
   licenseType tinytext,
   PRIMARY KEY (purchasedItemID),
-  FOREIGN KEY (purchaseID) REFERENCES Purchases (purchaseID)
+  FOREIGN KEY (purchaseOrderID) REFERENCES PurchaseOrders (purchaseOrderID),
+  FOREIGN KEY (toolID) REFERENCES Tools (toolID)
 );
 
 --
@@ -286,3 +273,7 @@ FROM Persons;
 
 SELECT toolID, purchaseOrderID, toolName, toolNotes, toolCategory, properties, status, userID, pathToToolImage, purchasePrice_NoTAX, salePrice_NoTAX, material
 FROM Tools;
+
+SELECT *
+FROM Tools
+WHERE status = 'Available';
