@@ -10,6 +10,20 @@ tool = APIRouter(prefix="/tools")
 async def read_all_tools():
     return connection.execute(tools.select()).fetchall()
 
+@tool.get("/available")
+async def read_all_available():
+    return connection.execute(
+        tools.select()
+        .where(tools.c.status == "Available")
+    ).fetchall()
+
+@tool.get("/in_use")
+async def read_all_available():
+    return connection.execute(
+        tools.select()
+        .where(tools.c.status == "In Use")
+    ).fetchall()
+
 @tool.get("/{id}")
 async def read_one_tool(id: int):
     return connection.execute(tools.select().where(tools.c.toolID == id)).fetchall()
