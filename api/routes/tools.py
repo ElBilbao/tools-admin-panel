@@ -19,11 +19,13 @@ async def create_tool(tool: Tool):
     connection.execute(
             tools.insert().values(
                 toolID=tool.toolID,
-                quotationID=sql.null(),
+                purchaseOrderID=sql.null(),
                 toolName=tool.toolName,
                 toolNotes=tool.toolNotes,
                 toolCategory=tool.toolCategory,
-                toolType=tool.toolType,
+                properties=tool.properties,
+                status=tool.status,
+                userID=sql.null(),
                 pathToToolImage=tool.pathToToolImage,
                 purchasePrice_NoTAX=tool.purchasePrice_NoTAX,
                 salePrice_NoTAX=tool.salePrice_NoTAX,
