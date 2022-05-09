@@ -2,12 +2,13 @@ from pydantic import BaseModel
 
 class Tool(BaseModel):
     toolID: int
-    quotationID: int
-    toolName: str
+    purchaseOrderID: int
     toolName: str
     toolNotes: str
     toolCategory: str
-    toolType: str
+    properties: str
+    status: str
+    userID: int
     pathToToolImage: str
     purchasePrice_NoTAX: float
     salePrice_NoTAX: float
