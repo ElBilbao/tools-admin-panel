@@ -165,7 +165,7 @@ CREATE TABLE Projects (
 );
 
 --
--- Table structure for table purchaseOrders
+-- Table structure for table PurchaseOrders
 --
 
 CREATE TABLE PurchaseOrders (
@@ -230,7 +230,7 @@ CREATE TABLE Tools (
   salePrice_NoTAX decimal(10,2) DEFAULT NULL,
   material TINYTEXT DEFAULT NULL,
   PRIMARY KEY (toolID),
-  FOREIGN KEY (purchaseOrderID) REFERENCES purchaseOrders (purchaseOrderID),
+  FOREIGN KEY (purchaseOrderID) REFERENCES PurchaseOrders (purchaseOrderID),
   FOREIGN KEY (userID) REFERENCES Persons (personID)
 );
 
