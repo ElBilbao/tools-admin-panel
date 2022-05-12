@@ -8,13 +8,37 @@ const ToolInfoContext = React.createContext({
   fetchToolInfo: () => {},
 });
 
-function statusToEmoji(status) {
+function statusToEmoji(status, id) {
   if (status == "Available") {
     return "🟢 Available";
-  } else if (status == "In use") {
+  } else if (status == "In use" || status == "In Use") {
     return "🟡 In use";
   }
+  return status;
+}
 
+function changeStatusComponent(status) {
+  if (status == "Available") {
+    return (
+      <form class="flex">
+        <input
+          class="rounded-l-lg p-2 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white"
+          placeholder="Employee ID"
+        />
+        <button class="px-8 rounded-r-lg bg-yellow-400  text-gray-800 font-bold p-1 uppercase border-yellow-500 border-t border-b border-r">
+          Use
+        </button>
+      </form>
+    );
+  } else if (status == "In use" || status == "In Use") {
+    return (
+      <form class="flex">
+        <button class="px-8 rounded bg-green-400 text-gray-800 font-bold p-2 uppercase border-green-500 border-t border-b border-r">
+          Free
+        </button>
+      </form>
+    );
+  }
   return status;
 }
 
@@ -32,7 +56,7 @@ export default function ViewToolInfo() {
   useEffect(() => {
     fetchToolInfo();
   }, []);
-  console.log(toolInfo)
+  console.log(toolInfo);
   return (
     <>
       <Head>
@@ -100,6 +124,7 @@ export default function ViewToolInfo() {
 
                       <table class="min-w-full text-left">
                         <tbody>
+                          {/* Tool ID */}
                           <tr class="bg-white border-b">
                             <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                               <span class="uppercase text-red-600 font-bold">
@@ -108,6 +133,8 @@ export default function ViewToolInfo() {
                               {toolInfo.toolID}
                             </td>
                           </tr>
+
+                          {/* Tool Name */}
                           <tr class="bg-white border-b">
                             <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                               <span class="uppercase text-red-600 font-bold">
@@ -116,6 +143,8 @@ export default function ViewToolInfo() {
                               {toolInfo.toolName}
                             </td>
                           </tr>
+
+                          {/* Tool Supplier */}
                           <tr class="bg-white border-b">
                             <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                               <span class="uppercase text-red-600 font-bold">
@@ -124,6 +153,8 @@ export default function ViewToolInfo() {
                               Supplier number five
                             </td>
                           </tr>
+
+                          {/* Tool Properties */}
                           <tr class="bg-white border-b">
                             <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                               <span class="uppercase text-red-600 font-bold">
@@ -133,6 +164,7 @@ export default function ViewToolInfo() {
                             </td>
                           </tr>
 
+                          {/* Tool Category */}
                           <tr class="bg-white border-b">
                             <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                               <span class="uppercase text-red-600 font-bold">
@@ -141,7 +173,8 @@ export default function ViewToolInfo() {
                               {toolInfo.toolCategory}
                             </td>
                           </tr>
-                          
+
+                          {/* Tool Material */}
                           <tr class="bg-white border-b">
                             <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                               <span class="uppercase text-red-600 font-bold">
@@ -150,7 +183,8 @@ export default function ViewToolInfo() {
                               {toolInfo.material}
                             </td>
                           </tr>
-                          
+
+                          {/* Tool Price */}
                           <tr class="bg-white border-b">
                             <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                               <span class="uppercase text-red-600 font-bold">
@@ -160,6 +194,7 @@ export default function ViewToolInfo() {
                             </td>
                           </tr>
 
+                          {/* Tool Notes */}
                           <tr class="bg-white border-b">
                             <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                               <span class="uppercase text-red-600 font-bold">
@@ -169,6 +204,7 @@ export default function ViewToolInfo() {
                             </td>
                           </tr>
 
+                          {/* Tool Status */}
                           <tr class="bg-white border-b">
                             <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                               <span class="uppercase text-red-600 font-bold">
@@ -176,12 +212,11 @@ export default function ViewToolInfo() {
                               </span>
                               {statusToEmoji(toolInfo.status)}
                             </td>
+
+                            <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              {changeStatusComponent(toolInfo.status, toolInfo.toolID)}
+                            </td>
                           </tr>
-
-       
-
-
-
                         </tbody>
                       </table>
                     </div>
