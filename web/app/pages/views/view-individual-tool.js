@@ -18,8 +18,8 @@ function statusToEmoji(status, id) {
   return status;
 }
 
-const freeTool = async(status, id, toolInfo) => {
-
+const toolStatusChanger = async(status, userID, toolInfo) => {
+  
   const data = {
     toolID: toolInfo.toolID,
     purchaseOrderID: 14,
@@ -27,8 +27,8 @@ const freeTool = async(status, id, toolInfo) => {
     toolNotes: toolInfo.toolNotes,
     toolCategory: toolInfo.toolCategory,
     properties: toolInfo.properties,
-    status: "Available",
-    userID: 14,
+    status: status,
+    userID: toolInfo.userID == 14 ? userID : 14,
     pathToToolImage: toolInfo.pathToToolImage,
     purchasePrice_NoTAX: toolInfo.purchasePrice_NoTAX,
     salePrice_NoTAX: toolInfo.salePrice_NoTAX,
@@ -36,7 +36,7 @@ const freeTool = async(status, id, toolInfo) => {
   };
 
   const JSONdata = JSON.stringify(data);
-  const endpoint = `http://localhost:8000/tools/${id}`;
+  const endpoint = `http://localhost:8000/tools/${toolInfo.toolID}`;
   const options = {
     method: "PUT",
     headers: {
@@ -46,7 +46,7 @@ const freeTool = async(status, id, toolInfo) => {
   };
   const response = await fetch(endpoint, options);
   if(response.status == 200) {
-    alert("Successfully freed the tool");
+    alert("Tool status succesfully changed!");
     window.location = "http://localhost:3000/views/view-old-tools";
   }
   else {
@@ -55,22 +55,23 @@ const freeTool = async(status, id, toolInfo) => {
 }
 
 
-function changeStatusComponent(status, id, data) {
+function changeStatusComponent(status, userID, data) {
   if (status == "Available") {
     return (
-      <form class="flex">
+      <>
         <input
+          id="EmployeeID"
           class="rounded-l-lg p-2 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white"
           placeholder="Employee ID"
         />
-        <button class="px-8 rounded-r-lg bg-yellow-400  text-gray-800 font-bold p-1 uppercase border-yellow-500 border-t border-b border-r">
+        <button onClick={() => toolStatusChanger("In use", document.getElementById("EmployeeID").value, data)} class="px-8 rounded-r-lg bg-yellow-400  text-gray-800 font-bold p-1 uppercase border-yellow-500 border-t border-b border-r">
           Use
         </button>
-      </form>
+      </>
     );
   } else if (status == "In use" || status == "In Use") {
     return (
-        <button type="submit" onClick={() => freeTool(status, id, data)} class="px-8 rounded bg-green-400 text-gray-800 font-bold p-2 uppercase border-green-500 border-t border-b border-r">
+        <button type="submit" onClick={() => toolStatusChanger("Available", userID, data)} class="px-8 rounded bg-green-400 text-gray-800 font-bold p-2 uppercase border-green-500 border-t border-b border-r">
           Free
         </button>
     );
@@ -250,7 +251,7 @@ export default function ViewToolInfo() {
                             </td>
 
                             <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {changeStatusComponent(toolInfo.status, toolInfo.toolID, toolInfo)}
+                              {changeStatusComponent(toolInfo.status, toolInfo.userID, toolInfo)}
                             </td>
                           </tr>
                         </tbody>
