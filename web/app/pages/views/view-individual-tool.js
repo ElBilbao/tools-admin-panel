@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
+import { redirect } from "next/dist/server/api-utils";
 
 const ToolInfoContext = React.createContext({
   toolInfo: [],
@@ -12,12 +13,49 @@ function statusToEmoji(status, id) {
   if (status == "Available") {
     return "🟢 Available";
   } else if (status == "In use" || status == "In Use") {
-    return "🟡 In use";
+    return "🟡 In use by user " + id;
   }
   return status;
 }
 
-function changeStatusComponent(status) {
+const freeTool = async(status, id, toolInfo) => {
+
+  const data = {
+    toolID: toolInfo.toolID,
+    purchaseOrderID: 14,
+    toolName: toolInfo.toolName,
+    toolNotes: toolInfo.toolNotes,
+    toolCategory: toolInfo.toolCategory,
+    properties: toolInfo.properties,
+    status: "Available",
+    userID: 14,
+    pathToToolImage: toolInfo.pathToToolImage,
+    purchasePrice_NoTAX: toolInfo.purchasePrice_NoTAX,
+    salePrice_NoTAX: toolInfo.salePrice_NoTAX,
+    material: toolInfo.material,
+  };
+
+  const JSONdata = JSON.stringify(data);
+  const endpoint = `http://localhost:8000/tools/${id}`;
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSONdata
+  };
+  const response = await fetch(endpoint, options);
+  if(response.status == 200) {
+    alert("Successfully freed the tool");
+    window.location = "http://localhost:3000/views/view-old-tools";
+  }
+  else {
+    alert("Error: Response status " + response.status);
+  }
+}
+
+
+function changeStatusComponent(status, id, data) {
   if (status == "Available") {
     return (
       <form class="flex">
@@ -32,11 +70,9 @@ function changeStatusComponent(status) {
     );
   } else if (status == "In use" || status == "In Use") {
     return (
-      <form class="flex">
-        <button class="px-8 rounded bg-green-400 text-gray-800 font-bold p-2 uppercase border-green-500 border-t border-b border-r">
+        <button type="submit" onClick={() => freeTool(status, id, data)} class="px-8 rounded bg-green-400 text-gray-800 font-bold p-2 uppercase border-green-500 border-t border-b border-r">
           Free
         </button>
-      </form>
     );
   }
   return status;
@@ -45,7 +81,7 @@ function changeStatusComponent(status) {
 export default function ViewToolInfo() {
   const router = useRouter();
   const { data } = router.query;
-  console.log(data);
+  // console.log(data);
   const [toolInfo, setToolInfo] = useState([]);
   const fetchToolInfo = async () => {
     const response = await fetch(`http://localhost:8000/tools/${data}`);
@@ -56,7 +92,7 @@ export default function ViewToolInfo() {
   useEffect(() => {
     fetchToolInfo();
   }, []);
-  console.log(toolInfo);
+
   return (
     <>
       <Head>
@@ -210,11 +246,11 @@ export default function ViewToolInfo() {
                               <span class="uppercase text-red-600 font-bold">
                                 Status:{" "}
                               </span>
-                              {statusToEmoji(toolInfo.status)}
+                              {statusToEmoji(toolInfo.status, toolInfo.userID)}
                             </td>
 
                             <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {changeStatusComponent(toolInfo.status, toolInfo.toolID)}
+                              {changeStatusComponent(toolInfo.status, toolInfo.toolID, toolInfo)}
                             </td>
                           </tr>
                         </tbody>
