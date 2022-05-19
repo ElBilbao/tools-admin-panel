@@ -22,7 +22,7 @@ async def create_user(user: User):
                 names = user.names,
                 familyName = user.familyName,
                 RFC = user.RFC if user.RFC != "" else sql.null(),
-                sex = user.sex,
+                sex = "M" if user.sex[0] == "M" else "F",
                 DOB = user.DOB,
                 addressID = user.addressID if user.addressID != -1 else sql.null(),
                 dateAdded = user.dateAdded,

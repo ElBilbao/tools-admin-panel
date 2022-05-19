@@ -61,30 +61,32 @@ function UserForm() {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
 
+    const today = new Date(Date.now());
+
     // Get data from the form.
     const data = {
-      toolID: event.target.gridSerialNumber.value,
-      purchaseOrderID: 0,
-      toolName: event.target.gridName.value,
-      toolNotes: event.target.gridNotes.value,
-      toolCategory: event.target.gridCategory.value,
-      properties: event.target.gridProperties.value,
-      status: event.target.gridStatus.value,
-      userID: event.target.gridUser.value,
-      pathToToolImage: "",
-      purchasePrice_NoTAX: event.target.gridPrice.value,
-      salePrice_NoTAX: 0,
-      material: event.target.gridMaterial.value,
+      personID: event.target.gridUserID.value,
+      names: event.target.gridName.value,
+      familyName: event.target.gridLastName.value,
+      RFC: event.target.gridRFC.value,
+      sex: event.target.gridSex.value,
+      DOB: new Date(event.target.gridDOB.value).toISOString(),
+      addressID: event.target.gridAddressID.value,
+      dateAdded: today.toISOString(),
+      email: event.target.gridEmail.value,
+      phoneNum: event.target.gridPhoneNumber.value,
+      rol: event.target.gridRol.value,
     };
+    console.log(data);
 
     // Send the data to the server in JSON format.
     const JSONdata = JSON.stringify(data);
     console.log(JSONdata);
 
-    //const res = await fetch("http://localhost:8000/tools/");
+    //const res = await fetch("http://localhost:8000/users/");
     //console.log(res);
     // API endpoint where we send form data.
-    const endpoint = "http://localhost:8000/tools/";
+    const endpoint = "http://localhost:8000/user/";
 
     // Form the request for sending data to the server.
     const options = {
@@ -106,7 +108,7 @@ function UserForm() {
     //const result = await response.json()
 
     if (response.status == 200) {
-      alert("Successfully added the tool.");
+      alert("Successfully added the user.");
       event.target.reset();
     } else {
       alert("Error: Response status " + response.status);
@@ -219,7 +221,7 @@ function UserForm() {
           </label>
           <input
             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="gridPrice"
+            id="gridPhoneNumber"
             type="text"
             placeholder="81 0011 2233"
           />
@@ -264,7 +266,7 @@ function UserForm() {
               id="gridRol"
             >
               <option>Manager</option>
-              <option>Employee</option>
+              <option>Engineer</option>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
               <svg
