@@ -53,7 +53,7 @@ async def update_tool(id: int, tool: Tool):
     connection.execute(
         tools.update().values(
                 toolID=tool.toolID,
-                purchaseOrderID=tool.purchaseOrderID,
+                purchaseOrderID=tool.purchaseOrderID if tool.purchaseOrderID != -1 else sql.null(),
                 toolName=tool.toolName,
                 toolNotes=tool.toolNotes,
                 toolCategory=tool.toolCategory,

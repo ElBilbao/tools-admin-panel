@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from routes.index import tool
 from routes.index import purchasedItem
+from routes.index import user
+
 import uvicorn
 
 app = FastAPI()
@@ -20,6 +22,7 @@ app.add_middleware(
 
 app.include_router(tool)
 app.include_router(purchasedItem)
+app.include_router(user)
 
 @app.get("/api")
 def test_api_response():
