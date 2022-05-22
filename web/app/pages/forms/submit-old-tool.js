@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
 function Header() {
   return (
@@ -51,6 +52,31 @@ function Header() {
  FORM
 */
 function ExistingForm() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const loadUsers = async () => {
+      // Load existing users
+      const endpoint = "http://localhost:8000/user/";
+
+      // Form the request for sending data to the server.
+      const options = {
+        // The method is POST because we are sending data.
+        method: "GET",
+        // Tell the server we're sending JSON.
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      // Send the form data to our tools API and get a response.
+      const response = await fetch(endpoint, options);
+      setUsers(await response.json());
+    };
+
+    loadUsers();
+  }, []);
+
   // Handles the submit event on form submit.
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
@@ -65,7 +91,7 @@ function ExistingForm() {
       toolCategory: event.target.gridCategory.value,
       properties: event.target.gridProperties.value,
       status: event.target.gridStatus.value,
-      userID: event.target.gridUser.value,
+      userID: event.target.gridUserID.value.split("-")[0],
       pathToToolImage: "",
       purchasePrice_NoTAX: event.target.gridPrice.value,
       salePrice_NoTAX: 0,
@@ -168,12 +194,18 @@ function ExistingForm() {
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
             Employee ID
           </label>
-          <input
-            class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-            id="gridUser"
-            type="text"
-            placeholder="19828"
-          />
+          <select
+            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            id="gridUserID"
+          >
+            {users.map((user, index) => {
+              return (
+                <option key={index}>
+                  {user.personID}-{user.names}
+                </option>
+              );
+            })}
+          </select>
         </div>
         <div class="w-full px-3">
           <label
