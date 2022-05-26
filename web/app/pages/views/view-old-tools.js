@@ -37,7 +37,9 @@ export default function ViewOldTools() {
       <ToolsContext.Provider value={{ tools, fetchTools }}>
         <nav class="flex items-center justify-between flex-wrap bg-red-600 p-6">
           <div class="flex items-center flex-shrink-0 text-white mr-6">
-            <span class="font-semibold text-xl tracking-tight">View Tools</span>
+            <span class="font-semibold text-xl tracking-tight">
+              Tool Admin Panel
+            </span>
           </div>
           <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
             <div class="text-sm lg:flex-grow">
@@ -48,7 +50,7 @@ export default function ViewOldTools() {
               </Link>
               <Link href="/forms/submit-old-tool">
                 <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">
-                  Existing Tools Form
+                  Tools Form
                 </a>
               </Link>
               <Link href="/forms/submit-purchase-order">
@@ -59,6 +61,11 @@ export default function ViewOldTools() {
               <Link href="/forms/submit-purchase-tool">
                 <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">
                   Purchase Tool Form
+                </a>
+              </Link>
+              <Link href="/forms/submit-user">
+                <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">
+                  New User Form
                 </a>
               </Link>
               <Link href="/views/view-old-tools">
@@ -151,8 +158,12 @@ export default function ViewOldTools() {
                       </thead>
                       <tbody>
                         {tools.map((tool) => (
-                          <Link href={{ pathname:"/views/view-individual-tool", query: { data: tool.toolID } }}>
-
+                          <Link
+                            href={{
+                              pathname: "/views/view-individual-tool",
+                              query: { data: tool.toolID },
+                            }}
+                          >
                             <tr class="bg-white border-b">
                               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {tool.toolID}
@@ -167,7 +178,6 @@ export default function ViewOldTools() {
                                 {statusToEmoji(tool.status)}
                               </td>
                             </tr>
-                            
                           </Link>
                         ))}
                       </tbody>

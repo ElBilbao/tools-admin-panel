@@ -18,8 +18,7 @@ function statusToEmoji(status, id) {
   return status;
 }
 
-const toolStatusChanger = async(status, userID, toolInfo) => {
-  
+const toolStatusChanger = async (status, userID, toolInfo) => {
   const data = {
     toolID: toolInfo.toolID,
     purchaseOrderID: 14,
@@ -42,18 +41,16 @@ const toolStatusChanger = async(status, userID, toolInfo) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSONdata
+    body: JSONdata,
   };
   const response = await fetch(endpoint, options);
-  if(response.status == 200) {
+  if (response.status == 200) {
     alert("Tool status succesfully changed!");
     window.location = "http://localhost:3000/views/view-old-tools";
-  }
-  else {
+  } else {
     alert("Error: Response status " + response.status);
   }
-}
-
+};
 
 function changeStatusComponent(status, userID, data) {
   if (status == "Available") {
@@ -64,16 +61,29 @@ function changeStatusComponent(status, userID, data) {
           class="rounded-l-lg p-2 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white"
           placeholder="Employee ID"
         />
-        <button onClick={() => toolStatusChanger("In use", document.getElementById("EmployeeID").value, data)} class="px-8 rounded-r-lg bg-yellow-400  text-gray-800 font-bold p-1 uppercase border-yellow-500 border-t border-b border-r">
+        <button
+          onClick={() =>
+            toolStatusChanger(
+              "In use",
+              document.getElementById("EmployeeID").value,
+              data
+            )
+          }
+          class="px-8 rounded-r-lg bg-yellow-400  text-gray-800 font-bold p-1 uppercase border-yellow-500 border-t border-b border-r"
+        >
           Use
         </button>
       </>
     );
   } else if (status == "In use" || status == "In Use") {
     return (
-        <button type="submit" onClick={() => toolStatusChanger("Available", userID, data)} class="px-8 rounded bg-green-400 text-gray-800 font-bold p-2 uppercase border-green-500 border-t border-b border-r">
-          Free
-        </button>
+      <button
+        type="submit"
+        onClick={() => toolStatusChanger("Available", userID, data)}
+        class="px-8 rounded bg-green-400 text-gray-800 font-bold p-2 uppercase border-green-500 border-t border-b border-r"
+      >
+        Free
+      </button>
     );
   }
   return status;
@@ -103,7 +113,9 @@ export default function ViewToolInfo() {
       <ToolInfoContext.Provider value={{ toolInfo, fetchToolInfo }}>
         <nav class="flex items-center justify-between flex-wrap bg-red-600 p-6">
           <div class="flex items-center flex-shrink-0 text-white mr-6">
-            <span class="font-semibold text-xl tracking-tight">TOOL VIEW</span>
+            <span class="font-semibold text-xl tracking-tight">
+              Tool Admin Panel
+            </span>
           </div>
           <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
             <div class="text-sm lg:flex-grow">
@@ -114,7 +126,7 @@ export default function ViewToolInfo() {
               </Link>
               <Link href="/forms/submit-old-tool">
                 <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">
-                  Existing Tools Form
+                  Tools Form
                 </a>
               </Link>
               <Link href="/forms/submit-purchase-order">
@@ -125,6 +137,11 @@ export default function ViewToolInfo() {
               <Link href="/forms/submit-purchase-tool">
                 <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">
                   Purchase Tool Form
+                </a>
+              </Link>
+              <Link href="/forms/submit-user">
+                <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">
+                  New User Form
                 </a>
               </Link>
               <Link href="/views/view-old-tools">
@@ -251,7 +268,11 @@ export default function ViewToolInfo() {
                             </td>
 
                             <td class="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {changeStatusComponent(toolInfo.status, toolInfo.userID, toolInfo)}
+                              {changeStatusComponent(
+                                toolInfo.status,
+                                toolInfo.userID,
+                                toolInfo
+                              )}
                             </td>
                           </tr>
                         </tbody>

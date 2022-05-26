@@ -18,7 +18,7 @@ function Header() {
           </Link>
           <Link href="/forms/submit-old-tool">
             <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">
-              Existing Tools Form
+              Tools Form
             </a>
           </Link>
           <Link href="/forms/submit-purchase-order">
@@ -31,12 +31,21 @@ function Header() {
               Purchase Tool Form
             </a>
           </Link>
-            <Link href="/views/view-old-tools">
-              <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">Existing tools</a>
-            </Link>
-            <Link href="/views/view-individual-tool">
-              <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">Tool View</a>
-            </Link>
+          <Link href="/forms/submit-user">
+            <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">
+              New User Form
+            </a>
+          </Link>
+          <Link href="/views/view-old-tools">
+            <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">
+              Existing tools
+            </a>
+          </Link>
+          <Link href="/views/view-individual-tool">
+            <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">
+              Tool View
+            </a>
+          </Link>
         </div>
       </div>
     </nav>
@@ -50,9 +59,6 @@ function PurchaseOrderForm() {
   return (
     <form class="w-full max-w-lg">
       <div class="flex flex-wrap -mx-3 mb-6">
-      
-      
-      
         {/* Purchase Order */}
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label
@@ -68,9 +74,6 @@ function PurchaseOrderForm() {
             placeholder="XXXXXXXX"
           />
         </div>
-
-
-
 
         {/* Purchase Type */}
         <div class="w-full md:w-1/2 px-3">
@@ -101,13 +104,6 @@ function PurchaseOrderForm() {
           </div>
         </div>
 
-
-
-
-      
-
-
-
         {/* Date Order */}
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label
@@ -124,7 +120,6 @@ function PurchaseOrderForm() {
           />
         </div>
 
-
         {/* Date Received */}
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label
@@ -140,13 +135,6 @@ function PurchaseOrderForm() {
             placeholder="2022-04-15"
           />
         </div>
-
-
-
-
-
-
-
 
         {/* Department */}
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0y">
@@ -177,9 +165,6 @@ function PurchaseOrderForm() {
           </div>
         </div>
 
-
-
-
         {/* Project */}
         <div class="w-full md:w-1/2 px-3">
           <label
@@ -208,10 +193,6 @@ function PurchaseOrderForm() {
             </div>
           </div>
         </div>
-
-
-
-
 
         {/* Approver in SAP */}
         <div class="w-full md:w-1/2 px-3">
@@ -242,9 +223,6 @@ function PurchaseOrderForm() {
           </div>
         </div>
 
-
-
-
         {/* Cost Center Charged */}
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0y">
           <label
@@ -274,13 +252,6 @@ function PurchaseOrderForm() {
           </div>
         </div>
 
-
-
-
-
-
-
-
         {/* Purchase Total */}
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label
@@ -297,7 +268,6 @@ function PurchaseOrderForm() {
           />
         </div>
 
-
         {/* FAA */}
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label
@@ -313,9 +283,6 @@ function PurchaseOrderForm() {
             placeholder="XXXXXXXX"
           />
         </div>
-
-
-
 
         {/* Notes */}
         <div class="w-full px-3 mb-6 md:mb-0">
@@ -360,21 +327,6 @@ function PurchaseOrderForm() {
             </div>
           </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-      
-
-
-
-
       </div>
       <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold my-4 py-2 px-4 border border-gray-400 rounded shadow">
         Submit

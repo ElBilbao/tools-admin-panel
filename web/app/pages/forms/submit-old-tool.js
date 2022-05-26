@@ -32,6 +32,11 @@ function Header() {
               Purchase Tool Form
             </a>
           </Link>
+          <Link href="/forms/submit-user">
+            <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">
+              New User Form
+            </a>
+          </Link>
           <Link href="/views/view-old-tools">
             <a class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-gray-900 mr-4">
               Existing tools
