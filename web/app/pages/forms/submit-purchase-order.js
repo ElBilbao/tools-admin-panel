@@ -1,6 +1,8 @@
 import Head from "next/head";
 import Link from "next/link";
 
+import React, { useEffect, useState } from "react";
+
 function Header() {
   return (
     <nav class="flex items-center justify-between flex-wrap bg-red-600 p-6">
@@ -56,6 +58,31 @@ function Header() {
  FORM
 */
 function PurchaseOrderForm() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const loadUsers = async () => {
+      // Load existing users
+      const endpoint = "http://localhost:8000/user/";
+
+      // Form the request for sending data to the server.
+      const options = {
+        // The method is POST because we are sending data.
+        method: "GET",
+        // Tell the server we're sending JSON.
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      // Send the form data to our tools API and get a response.
+      const response = await fetch(endpoint, options);
+      setUsers(await response.json());
+    };
+
+    loadUsers();
+  }, []);
+
   return (
     <form class="w-full max-w-lg">
       <div class="flex flex-wrap -mx-3 mb-6">
@@ -207,9 +234,13 @@ function PurchaseOrderForm() {
               class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-state"
             >
-              <option>Person 1</option>
-              <option>Person 2</option>
-              <option>Person 3</option>
+              {users.map((user, index) => {
+                return (
+                  <option key={index}>
+                    {user.personID}-{user.names}
+                  </option>
+                );
+              })}
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
               <svg
