@@ -192,6 +192,7 @@ CREATE TABLE PurchaseOrders (
 	FOREIGN KEY (purchaseResponsibleDepartment) REFERENCES Purchaser_Departments (purchaser_departmentID),
 	FOREIGN KEY (targetProjectID) REFERENCES Projects (projectID),
 	FOREIGN KEY (accountID) REFERENCES Accounts (accountID),
+  FOREIGN KEY (supplierID) REFERENCES Suppliers (supplierID),
   FOREIGN KEY (purchaseInitiatorID) REFERENCES Persons (personID)
 );
 
