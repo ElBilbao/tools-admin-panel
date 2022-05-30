@@ -52,16 +52,18 @@ async def create_tool(tool: Tool):
 async def update_tool(id: int, tool: Tool):
     connection.execute(
         tools.update().values(
-            toolID=tool.toolID,
-            quotationID=sql.null(),
-            toolName=tool.toolName,
-            toolNotes=tool.toolNotes,
-            toolCategory=tool.toolCategory,
-            toolType=tool.toolType,
-            pathToToolImage=tool.pathToToolImage,
-            purchasePrice_NoTAX=tool.purchasePrice_NoTAX,
-            salePrice_NoTAX=tool.salePrice_NoTAX,
-            material=tool.material
+                toolID=tool.toolID,
+                purchaseOrderID=tool.purchaseOrderID if tool.purchaseOrderID != -1 else sql.null(),
+                toolName=tool.toolName,
+                toolNotes=tool.toolNotes,
+                toolCategory=tool.toolCategory,
+                properties=tool.properties,
+                status=tool.status,
+                userID=tool.userID,
+                pathToToolImage=tool.pathToToolImage,
+                purchasePrice_NoTAX=tool.purchasePrice_NoTAX,
+                salePrice_NoTAX=tool.salePrice_NoTAX,
+                material=tool.material
         ).where(tools.c.toolID == id)
     )
     return connection.execute(tools.select()).fetchall()
